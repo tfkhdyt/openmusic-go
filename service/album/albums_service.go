@@ -3,20 +3,27 @@ package album
 import (
 	"fmt"
 
+	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/tfkhdyt/openmusic-go/repository/postgres/album"
+	albumRepository "github.com/tfkhdyt/openmusic-go/repository/postgres/album"
 )
 
 type Service struct {
-	repository *album.Repository
+	repository *albumRepository.Repository
 }
 
-func NewService(repository *album.Repository) *Service {
+func NewService(repository *albumRepository.Repository) *Service {
 	return &Service{repository}
 }
 
-func (s Service) AddAlbum(name string, year uint16) {
+func (s Service) AddAlbum(name string, year uint16) (gin.H, error) {
 	id := fmt.Sprintf("album-%v", uuid.NewString())
 
-	fmt.Println("ID:", id)
+	album, err := s.repository.CreateAlbum(id, name, year)
+
+	data := gin.H{
+		"albumId": album.ID,
+	}
+
+	return data, err
 }

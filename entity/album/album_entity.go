@@ -1,6 +1,7 @@
 package album
 
-type Entity struct {
+type Album struct {
+	ID   string `gorm:"primaryKey"`
 	Name string `json:"name" binding:"required"`
 	Year uint16 `json:"year" binding:"required"`
 }

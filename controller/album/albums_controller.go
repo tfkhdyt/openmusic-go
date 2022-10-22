@@ -17,7 +17,7 @@ func NewController(service *albumService.Service) *Controller {
 }
 
 func (a Controller) PostHandler(c *gin.Context) {
-	var album albumEntity.Entity
+	var album albumEntity.Album
 
 	if err := c.ShouldBindJSON(&album); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
@@ -27,7 +27,17 @@ func (a Controller) PostHandler(c *gin.Context) {
 		return
 	}
 
-	a.service.AddAlbum(album.Name, album.Year)
+	albumId, err := a.service.AddAlbum(album.Name, album.Year)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  "error",
+			"message": err.Error(),
+		})
+		return
+	}
 
-	c.JSON(http.StatusOK, gin.H{"status": "ok"})
+	c.JSON(http.StatusOK, gin.H{
+		"status": "ok",
+		"data":   albumId,
+	})
 }

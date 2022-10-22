@@ -7,14 +7,16 @@
 package album
 
 import (
+	"github.com/tfkhdyt/openmusic-go/db/postgres"
 	"github.com/tfkhdyt/openmusic-go/repository/postgres/album"
 	album2 "github.com/tfkhdyt/openmusic-go/service/album"
 )
 
-// Injectors from initialize_albums_controller.go:
+// Injectors from wire.go:
 
 func InitializeController() *Controller {
-	repository := album.NewRepository()
+	db := postgres.NewDB()
+	repository := album.NewRepository(db)
 	service := album2.NewService(repository)
 	controller := NewController(service)
 	return controller
