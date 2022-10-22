@@ -36,3 +36,12 @@ func (s Service) FindOne(id string) (albumEntity.Album, error) {
 
 	return album, nil
 }
+
+func (s Service) Update(id string, updatedAlbum *albumEntity.Album) error {
+	err := s.repository.Update(id, updatedAlbum)
+	if err != nil {
+		return errors.New("gagal mengubah album")
+	}
+
+	return nil
+}

@@ -8,6 +8,7 @@ import (
 func SetAlbumsRoutes(router *gin.RouterGroup) {
 	controller := album.InitializeController()
 
-	router.POST("/", controller.PostHandler)
-	router.GET("/:id", controller.GetByIdHandler)
+	router.POST("/", controller.Post)
+	router.GET("/:id", controller.GetById)
+	router.PUT("/:id", controller.Put)
 }

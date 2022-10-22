@@ -1,6 +1,7 @@
 package album
 
 import (
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -16,7 +17,7 @@ func NewController(service *albumService.Service) *Controller {
 	return &Controller{service}
 }
 
-func (a Controller) PostHandler(c *gin.Context) {
+func (a Controller) Post(c *gin.Context) {
 	var album albumEntity.Album
 
 	if err := c.ShouldBindJSON(&album); err != nil {
@@ -33,6 +34,7 @@ func (a Controller) PostHandler(c *gin.Context) {
 			"status":  "error",
 			"message": err.Error(),
 		})
+		log.Println(err)
 		return
 	}
 
@@ -44,10 +46,10 @@ func (a Controller) PostHandler(c *gin.Context) {
 	})
 }
 
-func (a Controller) GetByIdHandler(c *gin.Context) {
-	albumId := c.Param("id")
+func (a Controller) GetById(c *gin.Context) {
+	id := c.Param("id")
 
-	album, err := a.service.FindOne(albumId)
+	album, err := a.service.FindOne(id)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "fail",
@@ -61,5 +63,32 @@ func (a Controller) GetByIdHandler(c *gin.Context) {
 		"data": gin.H{
 			"album": album,
 		},
+	})
+}
+
+func (a Controller) Put(c *gin.Context) {
+	id := c.Param("id")
+	var updatedAlbum albumEntity.Album
+
+	if err := c.ShouldBindJSON(&updatedAlbum); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status":  "fail",
+			"message": err.Error(),
+		})
+		return
+	}
+
+	if err := a.service.Update(id, &updatedAlbum); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"status":  "error",
+			"message": err.Error(),
+		})
+		log.Println(err)
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"status":  "ok",
+		"message": "album berhasil diubah",
 	})
 }
