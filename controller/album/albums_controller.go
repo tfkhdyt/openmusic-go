@@ -39,7 +39,7 @@ func (c Controller) Post(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusCreated, gin.H{
-		"status": "ok",
+		"status": "success",
 		"data": gin.H{
 			"albumId": albumId,
 		},
@@ -59,7 +59,7 @@ func (c Controller) GetById(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"status": "ok",
+		"status": "success",
 		"data": gin.H{
 			"album": album,
 		},
@@ -98,7 +98,7 @@ func (c Controller) Put(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"status":  "ok",
+		"status":  "success",
 		"message": "Album berhasil diubah",
 	})
 }
@@ -125,7 +125,7 @@ func (c Controller) Delete(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"status":  "ok",
+		"status":  "success",
 		"message": "Album berhasil dihapus",
 	})
 }
