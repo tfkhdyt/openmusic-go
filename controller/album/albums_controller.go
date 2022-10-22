@@ -27,7 +27,7 @@ func (a Controller) PostHandler(c *gin.Context) {
 		return
 	}
 
-	albumId, err := a.service.Add(album.Name, album.Year)
+	albumId, err := a.service.Create(album.Name, album.Year)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"status":  "error",
@@ -47,7 +47,7 @@ func (a Controller) PostHandler(c *gin.Context) {
 func (a Controller) GetByIdHandler(c *gin.Context) {
 	albumId := c.Param("id")
 
-	album, err := a.service.GetById(albumId)
+	album, err := a.service.FindOne(albumId)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"status":  "fail",
