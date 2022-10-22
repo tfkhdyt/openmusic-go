@@ -55,7 +55,7 @@ func (a Controller) GetByIdHandler(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"status": "success",
+		"status": "ok",
 		"data":   album,
 	})
 }
