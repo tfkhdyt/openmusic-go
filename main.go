@@ -1,8 +1,15 @@
 package main
 
-import "fmt"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/tfkhdyt/openmusic-go/router/album"
+)
 
 func main() {
-  str := "String"[2]
-  fmt.Println(str)
+	r := gin.Default()
+
+	albumsRouterGroup := r.Group("/albums")
+	album.SetAlbumsRoutes(albumsRouterGroup)
+
+	r.Run()
 }
