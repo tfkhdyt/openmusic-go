@@ -31,8 +31,14 @@ func (r Repository) FindOne(id string) (album.Album, error) {
 	return album, err
 }
 
-func (r Repository) Update(id string, updatedAlbum *album.Album) error {
-	err := r.db.Model(&album.Album{}).Where("id = ?", id).Updates(updatedAlbum).Error
+func (r Repository) Update(album *album.Album, updatedAlbum *album.Album) error {
+	err := r.db.Model(album).Updates(updatedAlbum).Error
+
+	return err
+}
+
+func (r Repository) Delete(album *album.Album) error {
+	err := r.db.Delete(album).Error
 
 	return err
 }

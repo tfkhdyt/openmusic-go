@@ -11,4 +11,5 @@ func SetAlbumsRoutes(router *gin.RouterGroup) {
 	router.POST("/", controller.Post)
 	router.GET("/:id", controller.GetById)
 	router.PUT("/:id", controller.Put)
+	router.DELETE("/:id", controller.Delete)
 }
