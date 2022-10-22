@@ -9,4 +9,5 @@ func SetAlbumsRoutes(router *gin.RouterGroup) {
 	controller := album.InitializeController()
 
 	router.POST("/", controller.PostHandler)
+	router.GET("/:id", controller.GetByIdHandler)
 }
