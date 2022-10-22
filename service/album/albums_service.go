@@ -6,7 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
-	"github.com/tfkhdyt/openmusic-go/entity/album"
+	albumEntity "github.com/tfkhdyt/openmusic-go/entity/album"
 	albumRepository "github.com/tfkhdyt/openmusic-go/repository/postgres/album"
 )
 
@@ -33,7 +33,7 @@ func (s Service) Add(name string, year uint16) (gin.H, error) {
 	return data, nil
 }
 
-func (s Service) GetById(id string) (album.Album, error) {
+func (s Service) GetById(id string) (albumEntity.Album, error) {
 	album, err := s.repository.GetById(id)
 	if err != nil {
 		return album, errors.New("album tidak ditemukan")
