@@ -38,7 +38,9 @@ func (a Controller) PostHandler(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{
 		"status": "ok",
-		"data":   albumId,
+		"data": gin.H{
+			"albumId": albumId,
+		},
 	})
 }
 
@@ -56,6 +58,8 @@ func (a Controller) GetByIdHandler(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
-		"data":   album,
+		"data": gin.H{
+			"album": album,
+		},
 	})
 }
