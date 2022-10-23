@@ -1,6 +1,7 @@
 package album
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -19,6 +20,7 @@ func NewController(service *albumService.Service) *Controller {
 
 func (c Controller) Post(ctx *gin.Context) {
 	var album albumEntity.Album
+	fmt.Println("Lagi di controller")
 
 	if err := ctx.ShouldBindJSON(&album); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{

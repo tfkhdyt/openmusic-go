@@ -9,23 +9,28 @@ import (
 	"gorm.io/gorm"
 )
 
+var (
+	AlbumDB *gorm.DB
+)
+
 type DB struct {
 	config *postgresConfig.Config
 }
 
 func NewDB(config *postgresConfig.Config) *DB {
-	return &DB{config}
+	return &DB{config: config}
 }
 
-func (d DB) Connect() *gorm.DB {
-	dsn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=disable TimeZone=Asia/Jakarta", d.config.Host, d.config.Username, d.config.Password, d.config.DbName, d.config.Port)
+func (d *DB) Connect() {
+	dsn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=disable TimeZone=Asia/Jakarta", d.config.GetHost(), d.config.GetUser(), d.config.GetPass(), d.config.GetDBName(), d.config.GetPort())
 
 	db, err := gorm.Open(postgresDriver.Open(dsn), &gorm.Config{})
 	if err != nil {
-		panic(err)
+		panic(err.Error())
 	}
 
 	db.AutoMigrate(&album.Album{})
+	AlbumDB = db
 
-	return db
+	fmt.Println("Connected to DB...")
 }

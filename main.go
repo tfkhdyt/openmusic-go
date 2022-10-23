@@ -4,22 +4,16 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/tfkhdyt/openmusic-go/db/postgres"
 	"github.com/tfkhdyt/openmusic-go/router/album"
-	"gorm.io/gorm"
 )
-
-var (
-	DB *gorm.DB
-)
-
-func init() {
-	DB = postgres.InitializeDB().Connect()
-}
 
 func main() {
+	db := postgres.InitializeDB()
+	db.Connect()
 	r := gin.Default()
 
+	albumRG := r.Group("/albums")
 	albumRouter := album.InitializeRouter()
-	albumRouter.Route(r.Group("/albums"))
+	albumRouter.Route(albumRG)
 
 	r.Run()
 }

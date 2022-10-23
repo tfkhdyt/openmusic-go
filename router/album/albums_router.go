@@ -13,8 +13,7 @@ func NewRouter(controller *album.Controller) *Router {
 	return &Router{controller}
 }
 
-func (r Router) Route(router *gin.RouterGroup) {
-
+func (r *Router) Route(router *gin.RouterGroup) {
 	router.POST("/", r.controller.Post)
 	router.GET("/:id", r.controller.GetById)
 	router.PUT("/:id", r.controller.Put)

@@ -17,7 +17,7 @@ func NewService(repository *albumRepository.Repository) *Service {
 	return &Service{repository}
 }
 
-func (s Service) Create(name string, year uint16) (string, *exception.InternalServerError) {
+func (s *Service) Create(name string, year uint16) (string, *exception.InternalServerError) {
 	id := fmt.Sprintf("album-%v", uuid.NewString())
 
 	album, err := s.repository.Create(id, name, year)
@@ -28,7 +28,7 @@ func (s Service) Create(name string, year uint16) (string, *exception.InternalSe
 	return album.ID, nil
 }
 
-func (s Service) FindOne(id string) (albumEntity.Album, *exception.NotFoundError) {
+func (s *Service) FindOne(id string) (albumEntity.Album, *exception.NotFoundError) {
 	album, err := s.repository.FindOne(id)
 	if err != nil {
 		return album, exception.NewNotFoundError("Album tidak ditemukan")
@@ -37,7 +37,7 @@ func (s Service) FindOne(id string) (albumEntity.Album, *exception.NotFoundError
 	return album, nil
 }
 
-func (s Service) Update(oldAlbum *albumEntity.Album, newAlbum *albumEntity.Album) *exception.InternalServerError {
+func (s *Service) Update(oldAlbum *albumEntity.Album, newAlbum *albumEntity.Album) *exception.InternalServerError {
 	if err := s.repository.Update(oldAlbum, newAlbum); err != nil {
 		return exception.NewInternalServerError("Gagal mengubah album")
 	}
@@ -45,7 +45,7 @@ func (s Service) Update(oldAlbum *albumEntity.Album, newAlbum *albumEntity.Album
 	return nil
 }
 
-func (s Service) Delete(album *albumEntity.Album) *exception.InternalServerError {
+func (s *Service) Delete(album *albumEntity.Album) *exception.InternalServerError {
 	if err := s.repository.Delete(album); err != nil {
 		return exception.NewInternalServerError("Gagal menghapus album")
 	}

@@ -10,6 +10,6 @@ type Repository struct {
 }
 
 func NewRepository() *Repository {
-	db := postgres.InitializeDB().Connect()
+	db := postgres.AlbumDB
 	return &Repository{db}
 }

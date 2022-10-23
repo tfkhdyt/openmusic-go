@@ -2,34 +2,35 @@ package postgres
 
 import (
 	"os"
-	"strconv"
 
 	"github.com/joho/godotenv"
 )
 
-type Config struct {
-	Host     string
-	DbName   string
-	Port     uint16
-	Username string
-	Password string
-}
+type Config struct{}
 
 func NewConfig() *Config {
 	if err := godotenv.Load(); err != nil {
 		panic("Error loading .env file")
 	}
+	return &Config{}
+}
 
-	port, err := strconv.Atoi(os.Getenv("DB_PORT"))
-	if err != nil {
-		panic("Failed to parse port to integer")
-	}
+func (c Config) GetHost() string {
+	return os.Getenv("DB_HOST")
+}
 
-	return &Config{
-		Host:     os.Getenv("DB_HOST"),
-		DbName:   os.Getenv("DB_NAME"),
-		Port:     uint16(port),
-		Username: os.Getenv("DB_USER"),
-		Password: os.Getenv("DB_PASS"),
-	}
+func (c Config) GetDBName() string {
+	return os.Getenv("DB_NAME")
+}
+
+func (c Config) GetPort() string {
+	return os.Getenv("DB_PORT")
+}
+
+func (c Config) GetUser() string {
+	return os.Getenv("DB_USER")
+}
+
+func (c Config) GetPass() string {
+	return os.Getenv("DB_PASS")
 }
