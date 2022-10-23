@@ -9,6 +9,7 @@ type Repository struct {
 	db *gorm.DB
 }
 
-func NewRepository(db *postgres.DB) *Repository {
-	return &Repository{db.DB}
+func NewRepository() *Repository {
+	db := postgres.InitializeDB().Connect()
+	return &Repository{db}
 }

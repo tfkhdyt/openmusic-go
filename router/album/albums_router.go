@@ -5,11 +5,18 @@ import (
 	"github.com/tfkhdyt/openmusic-go/controller/album"
 )
 
-func SetAlbumsRoutes(router *gin.RouterGroup) {
-	controller := album.InitializeController()
+type Router struct {
+	controller *album.Controller
+}
 
-	router.POST("/", controller.Post)
-	router.GET("/:id", controller.GetById)
-	router.PUT("/:id", controller.Put)
-	router.DELETE("/:id", controller.Delete)
+func NewRouter(controller *album.Controller) *Router {
+	return &Router{controller}
+}
+
+func (r Router) Route(router *gin.RouterGroup) {
+
+	router.POST("/", r.controller.Post)
+	router.GET("/:id", r.controller.GetById)
+	router.PUT("/:id", r.controller.Put)
+	router.DELETE("/:id", r.controller.Delete)
 }
