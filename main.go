@@ -15,5 +15,7 @@ func main() {
 	albumRouter := album.InitializeRouter()
 	albumRouter.Route(albumRG)
 
-	r.Run()
+	if err := r.Run(); err != nil {
+		panic(err.Error())
+	}
 }
