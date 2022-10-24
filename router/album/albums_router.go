@@ -14,8 +14,8 @@ func NewRouter(controller *album.Controller) *Router {
 }
 
 func (r *Router) Route(router *gin.RouterGroup) {
-	router.POST("/", r.controller.Post)
-	router.GET("/:id", r.controller.GetById)
-	router.PUT("/:id", r.controller.Put)
+	router.POST("/", r.controller.Create)
+	router.GET("/:id", r.controller.FindOne)
+	router.PUT("/:id", r.controller.Update)
 	router.DELETE("/:id", r.controller.Delete)
 }

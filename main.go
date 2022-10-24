@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/tfkhdyt/openmusic-go/db/postgres"
 	"github.com/tfkhdyt/openmusic-go/router/album"
+	"github.com/tfkhdyt/openmusic-go/router/song"
 )
 
 func main() {
@@ -14,6 +15,10 @@ func main() {
 	albumRG := r.Group("/albums")
 	albumRouter := album.InitializeRouter()
 	albumRouter.Route(albumRG)
+
+	songRG := r.Group("/songs")
+	songRouter := song.InitializeRouter()
+	songRouter.Route(songRG)
 
 	if err := r.Run(); err != nil {
 		panic(err.Error())

@@ -10,6 +10,6 @@ type Repository struct {
 }
 
 func NewRepository() *Repository {
-	db := postgres.AlbumDB
+	db := postgres.PostgresDB
 	return &Repository{db}
 }
