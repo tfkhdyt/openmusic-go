@@ -1,7 +1,7 @@
 package song
 
 type Song struct {
-	ID        string `json:"id" gorm:"primaryKey"`
+	ID        string `json:"id"`
 	Title     string `json:"title,omitempty" binding:"required"`
 	Year      uint16 `json:"year,omitempty" binding:"required"`
 	Performer string `json:"performer,omitempty" binding:"required"`
