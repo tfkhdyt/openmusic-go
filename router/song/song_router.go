@@ -18,4 +18,5 @@ func (r Router) Route(router *gin.RouterGroup) {
 	router.GET("/", r.controller.FindAll)
 	router.GET("/:id", r.controller.FindOne)
 	router.PUT("/:id", r.controller.Update)
+	router.DELETE("/:id", r.controller.Delete)
 }

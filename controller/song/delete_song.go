@@ -1,4 +1,4 @@
-package album
+package song
 
 import (
 	"log"
@@ -10,7 +10,7 @@ import (
 func (c Controller) Delete(ctx *gin.Context) {
 	id := ctx.Param("id")
 
-	album, err := c.service.FindOne(id)
+	song, err := c.service.FindOne(id)
 	if err != nil {
 		ctx.JSON(err.StatusCode, gin.H{
 			"status":  "fail",
@@ -19,7 +19,7 @@ func (c Controller) Delete(ctx *gin.Context) {
 		return
 	}
 
-	if err := c.service.Delete(&album); err != nil {
+	if err := c.service.Delete(&song); err != nil {
 		ctx.JSON(err.StatusCode, gin.H{
 			"status":  "error",
 			"message": err.Error(),
@@ -30,6 +30,6 @@ func (c Controller) Delete(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"status":  "success",
-		"message": "Album berhasil dihapus",
+		"message": "Lagu berhasil dihapus",
 	})
 }
