@@ -11,7 +11,7 @@ import (
 func (c Controller) Update(ctx *gin.Context) {
 	id := ctx.Param("id")
 
-	oldAlbum, err := c.service.FindOne(id)
+	oldAlbum, err := c.albumsService.FindOne(id)
 	if err != nil {
 		ctx.JSON(err.StatusCode, gin.H{
 			"status":  "fail",
@@ -30,7 +30,7 @@ func (c Controller) Update(ctx *gin.Context) {
 		return
 	}
 
-	if err := c.service.Update(&oldAlbum, &newAlbum); err != nil {
+	if err := c.albumsService.Update(&oldAlbum, &newAlbum); err != nil {
 		ctx.JSON(err.StatusCode, gin.H{
 			"status":  "error",
 			"message": err.Error(),

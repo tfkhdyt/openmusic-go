@@ -9,13 +9,15 @@ package album
 import (
 	album2 "github.com/tfkhdyt/openmusic-go/controller/album"
 	"github.com/tfkhdyt/openmusic-go/service/album"
+	"github.com/tfkhdyt/openmusic-go/service/song"
 )
 
 // Injectors from wire.go:
 
 func InitializeRouter() *Router {
 	service := album.InitializeService()
-	controller := album2.NewController(service)
+	songService := song.InitializeService()
+	controller := album2.NewController(service, songService)
 	router := NewRouter(controller)
 	return router
 }

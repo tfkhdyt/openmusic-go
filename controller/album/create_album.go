@@ -19,7 +19,7 @@ func (c Controller) Create(ctx *gin.Context) {
 		return
 	}
 
-	albumId, err := c.service.Create(album.Name, album.Year)
+	albumId, err := c.albumsService.Create(album.Name, album.Year)
 	if err != nil {
 		ctx.JSON(err.StatusCode, gin.H{
 			"status":  "error",

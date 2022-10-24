@@ -10,7 +10,7 @@ import (
 func (c Controller) Delete(ctx *gin.Context) {
 	id := ctx.Param("id")
 
-	album, err := c.service.FindOne(id)
+	album, err := c.albumsService.FindOne(id)
 	if err != nil {
 		ctx.JSON(err.StatusCode, gin.H{
 			"status":  "fail",
@@ -19,7 +19,7 @@ func (c Controller) Delete(ctx *gin.Context) {
 		return
 	}
 
-	if err := c.service.Delete(&album); err != nil {
+	if err := c.albumsService.Delete(&album); err != nil {
 		ctx.JSON(err.StatusCode, gin.H{
 			"status":  "error",
 			"message": err.Error(),

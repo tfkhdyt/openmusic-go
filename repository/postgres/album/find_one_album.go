@@ -1,6 +1,8 @@
 package album
 
-import "github.com/tfkhdyt/openmusic-go/entity/album"
+import (
+	"github.com/tfkhdyt/openmusic-go/entity/album"
+)
 
 func (r *Repository) FindOne(id string) (album.Album, error) {
 	var album album.Album

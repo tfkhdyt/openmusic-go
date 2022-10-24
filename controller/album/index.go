@@ -1,13 +1,15 @@
 package album
 
 import (
-	albumService "github.com/tfkhdyt/openmusic-go/service/album"
+	"github.com/tfkhdyt/openmusic-go/service/album"
+	"github.com/tfkhdyt/openmusic-go/service/song"
 )
 
 type Controller struct {
-	service *albumService.Service
+	albumsService *album.Service
+	songsService  *song.Service
 }
 
-func NewController(service *albumService.Service) *Controller {
-	return &Controller{service}
+func NewController(albumsService *album.Service, songsService *song.Service) *Controller {
+	return &Controller{albumsService, songsService}
 }
