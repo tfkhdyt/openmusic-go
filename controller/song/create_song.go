@@ -1,17 +1,17 @@
-package album
+package song
 
 import (
 	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	albumEntity "github.com/tfkhdyt/openmusic-go/entity/album"
+	"github.com/tfkhdyt/openmusic-go/entity/song"
 )
 
 func (c Controller) Create(ctx *gin.Context) {
-	var album albumEntity.Album
+	var song song.Song
 
-	if err := ctx.ShouldBindJSON(&album); err != nil {
+	if err := ctx.ShouldBindJSON(&song); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"status":  "fail",
 			"message": err.Error(),
@@ -19,11 +19,10 @@ func (c Controller) Create(ctx *gin.Context) {
 		return
 	}
 
-	albumId, err := c.service.Create(album.Name, album.Year)
+	songId, err := c.service.Create(&song)
 	if err != nil {
 		ctx.JSON(err.StatusCode, gin.H{
-			"status":  "error",
-			"message": err.Error(),
+			"status": "error",
 		})
 		log.Println(err)
 		return
@@ -32,7 +31,7 @@ func (c Controller) Create(ctx *gin.Context) {
 	ctx.JSON(http.StatusCreated, gin.H{
 		"status": "success",
 		"data": gin.H{
-			"albumId": albumId,
+			"songId": songId,
 		},
 	})
 }
