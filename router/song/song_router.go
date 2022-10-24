@@ -16,4 +16,5 @@ func NewRouter(controller *song.Controller) *Router {
 func (r Router) Route(router *gin.RouterGroup) {
 	router.POST("/", r.controller.Create)
 	router.GET("/", r.controller.FindAll)
+	router.GET("/:id", r.controller.FindOne)
 }
