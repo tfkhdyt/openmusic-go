@@ -1,10 +1,10 @@
 package album
 
 import (
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/tfkhdyt/openmusic-go/util/response"
 )
 
 func (c Controller) FindOne(ctx *gin.Context) {
@@ -12,29 +12,19 @@ func (c Controller) FindOne(ctx *gin.Context) {
 
 	album, err := c.albumsService.FindOne(id)
 	if err != nil {
-		ctx.JSON(err.StatusCode, gin.H{
-			"status":  "fail",
-			"message": err.Error(),
-		})
+		response.SendFail(ctx, err.StatusCode, err.Error())
 		return
 	}
 
 	songs, err2 := c.songsService.FindAllByAlbumID(album.ID)
 	if err2 != nil {
-		ctx.JSON(err2.StatusCode, gin.H{
-			"status":  "error",
-			"message": err2.Error(),
-		})
-		log.Println(err2)
+		response.SendError(ctx, err2)
 		return
 	}
 
 	album.Songs = songs
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"status": "success",
-		"data": gin.H{
-			"album": album,
-		},
+	response.SendSuccessWithData(ctx, http.StatusOK, &gin.H{
+		"album": album,
 	})
 }
