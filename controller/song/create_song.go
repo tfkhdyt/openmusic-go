@@ -1,37 +1,26 @@
 package song
 
 import (
-	"log"
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/tfkhdyt/openmusic-go/entity/song"
+	"github.com/tfkhdyt/openmusic-go/util/response"
 )
 
 func (c Controller) Create(ctx *gin.Context) {
 	var song song.Song
 
 	if err := ctx.ShouldBindJSON(&song); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"status":  "fail",
-			"message": err.Error(),
-		})
+		response.SendFail(ctx, 400, err.Error())
 		return
 	}
 
 	songId, err := c.service.Create(&song)
 	if err != nil {
-		ctx.JSON(err.StatusCode, gin.H{
-			"status": "error",
-		})
-		log.Println(err)
+		response.SendError(ctx, err)
 		return
 	}
 
-	ctx.JSON(http.StatusCreated, gin.H{
-		"status": "success",
-		"data": gin.H{
-			"songId": songId,
-		},
+	response.SendSuccessWithData(ctx, 201, &gin.H{
+		"songId": songId,
 	})
 }

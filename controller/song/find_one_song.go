@@ -1,9 +1,8 @@
 package song
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
+	"github.com/tfkhdyt/openmusic-go/util/response"
 )
 
 func (c Controller) FindOne(ctx *gin.Context) {
@@ -11,17 +10,11 @@ func (c Controller) FindOne(ctx *gin.Context) {
 
 	song, err := c.service.FindOne(id)
 	if err != nil {
-		ctx.JSON(err.StatusCode, gin.H{
-			"status":  "fail",
-			"message": err.Error(),
-		})
+		response.SendFail(ctx, err.StatusCode, err.Error())
 		return
 	}
 
-	ctx.JSON(http.StatusOK, gin.H{
-		"status": "success",
-		"data": gin.H{
-			"song": song,
-		},
+	response.SendSuccessWithData(ctx, 200, &gin.H{
+		"song": song,
 	})
 }
