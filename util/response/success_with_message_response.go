@@ -1,13 +1,11 @@
 package response
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 
 func SendSuccessWithMessage(ctx *gin.Context, message string) {
-	ctx.JSON(http.StatusOK, gin.H{
+	ctx.JSON(200, gin.H{
 		"status":  "success",
 		"message": message,
 	})

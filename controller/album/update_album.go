@@ -1,8 +1,6 @@
 package album
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	albumEntity "github.com/tfkhdyt/openmusic-go/entity/album"
 	"github.com/tfkhdyt/openmusic-go/util/response"
@@ -20,7 +18,7 @@ func (c Controller) Update(ctx *gin.Context) {
 	var newAlbum albumEntity.Album
 
 	if err := ctx.ShouldBindJSON(&newAlbum); err != nil {
-		response.SendFail(ctx, http.StatusBadRequest, err.Error())
+		response.SendFail(ctx, 400, err.Error())
 		return
 	}
 

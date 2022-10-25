@@ -1,8 +1,6 @@
 package album
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 	"github.com/tfkhdyt/openmusic-go/util/response"
 )
@@ -24,7 +22,7 @@ func (c Controller) FindOne(ctx *gin.Context) {
 
 	album.Songs = songs
 
-	response.SendSuccessWithData(ctx, http.StatusOK, &gin.H{
+	response.SendSuccessWithData(ctx, 200, &gin.H{
 		"album": album,
 	})
 }
