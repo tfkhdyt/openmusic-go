@@ -7,5 +7,5 @@ type Song struct {
 	Performer string `json:"performer,omitempty" binding:"required"`
 	Genre     string `json:"genre,omitempty" binding:"required"`
 	Duration  uint   `json:"duration,omitempty"`
-	AlbumID   string `json:"albumId,omitempty"`
+	AlbumID   string `json:"albumId,omitempty" binding:"required"`
 }
