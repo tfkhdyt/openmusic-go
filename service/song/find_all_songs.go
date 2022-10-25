@@ -15,8 +15,6 @@ func (s Service) FindAll(title string, performer string) ([]song.Song, *exceptio
 		performer = fmt.Sprintf("%%%v%%", performer)
 	}
 
-	fmt.Println(title, performer)
-
 	songs, err := s.repository.FindAll(title, performer)
 	if err != nil {
 		return songs, exception.NewInternalServerError("Gagal mendapatkan lagu")
