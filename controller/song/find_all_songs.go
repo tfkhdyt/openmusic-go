@@ -6,7 +6,10 @@ import (
 )
 
 func (c Controller) FindAll(ctx *gin.Context) {
-	songs, err := c.service.FindAll()
+	title := ctx.Query("title")
+	performer := ctx.Query("performer")
+
+	songs, err := c.service.FindAll(title, performer)
 	if err != nil {
 		response.SendError(ctx, err)
 		return
