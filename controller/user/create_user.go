@@ -9,19 +9,22 @@ import (
 func (c Controller) Create(ctx *gin.Context) {
 	var user user.User
 
+	// validate request body
 	if err := ctx.ShouldBindJSON(&user); err != nil {
 		response.SendFail(ctx, 400, err.Error())
 		return
 	}
 
+	// verify username to prevent already exist on database
 	if err := c.service.VerifyNewUsername(user.Username); err != nil {
 		response.SendFail(ctx, err.StatusCode, err.Error())
 		return
 	}
 
+	// create user / register
 	userId, err := c.service.Create(&user)
 	if err != nil {
-		response.SendFail(ctx, err.StatusCode, err.Error())
+		response.SendError(ctx, err)
 		return
 	}
 
