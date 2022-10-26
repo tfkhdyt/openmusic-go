@@ -20,7 +20,7 @@ func (c Controller) Login(ctx *gin.Context) {
 	// check if user is exist
 	user, err := c.usersService.FindByUsername(credential.Username)
 	if err != nil {
-		response.SendFail(ctx, err.StatusCode, err.Error())
+		response.SendFail(ctx, 401, err.Error())
 		return
 	}
 
