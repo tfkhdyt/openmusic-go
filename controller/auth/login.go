@@ -25,7 +25,7 @@ func (c Controller) Login(ctx *gin.Context) {
 	}
 
 	// check password
-	if err := c.usersService.VerifyPassword(user.ID, credential.Password); err != nil {
+	if err := c.usersService.VerifyPassword(user.Password, credential.Password); err != nil {
 		response.SendFail(ctx, err.StatusCode, err.Error())
 		return
 	}
