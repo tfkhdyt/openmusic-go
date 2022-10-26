@@ -26,7 +26,7 @@ func main() {
 	userRouter := user.InitializeRouter()
 	userRouter.Route(userRG)
 
-	authRG := r.Group("/auth")
+	authRG := r.Group("/authentications")
 	authRouter := auth.InitializeRouter()
 	authRouter.Route(authRG)
 
