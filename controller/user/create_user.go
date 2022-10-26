@@ -14,6 +14,11 @@ func (c Controller) Create(ctx *gin.Context) {
 		return
 	}
 
+	if err := c.service.VerifyNewUsername(user.Username); err != nil {
+		response.SendFail(ctx, err.StatusCode, err.Error())
+		return
+	}
+
 	userId, err := c.service.Create(&user)
 	if err != nil {
 		response.SendFail(ctx, err.StatusCode, err.Error())
