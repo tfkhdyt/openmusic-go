@@ -1,7 +1,7 @@
 package auth
 
 type Auth struct {
-	Token string `json:"token" binding:"required"`
+	Token string `json:"refreshToken" binding:"required"`
 }
 
 type Credentials struct {
