@@ -9,12 +9,11 @@ import (
 )
 
 func (s Service) Create(payload *song.Song) (string, *exception.InternalServerError) {
-	id := fmt.Sprintf("song-%v", uuid.NewString())
-	payload.ID = id
+	payload.ID = fmt.Sprintf("song-%v", uuid.NewString())
 
 	songId, err := s.repository.Create(payload)
 	if err != nil {
-		return "", exception.NewInternalServerError("Gagal menambahkan lagu")
+		return songId, exception.NewInternalServerError("Gagal menambahkan lagu")
 	}
 
 	return songId, nil

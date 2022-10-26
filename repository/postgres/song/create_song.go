@@ -2,8 +2,8 @@ package song
 
 import "github.com/tfkhdyt/openmusic-go/entity/song"
 
-func (r Repository) Create(payload *song.Song) (string, error) {
-	result := r.db.Create(payload).Error
+func (r Repository) Create(song *song.Song) (string, error) {
+	err := r.db.Create(song).Error
 
-	return payload.ID, result
+	return song.ID, err
 }
