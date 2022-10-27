@@ -21,12 +21,6 @@ func (c Controller) DeleteToken(ctx *gin.Context) {
 		return
 	}
 
-	// verify token
-	if _, err := c.tokenManager.VerifyJWT(auth.Token); err != nil {
-		response.SendFail(ctx, err.StatusCode, err.Error())
-		return
-	}
-
 	// delete token from database
 	if err := c.authService.DeleteToken(auth.Token); err != nil {
 		response.SendError(ctx, err)
