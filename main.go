@@ -5,6 +5,7 @@ import (
 	"github.com/tfkhdyt/openmusic-go/db/postgres"
 	"github.com/tfkhdyt/openmusic-go/router/album"
 	"github.com/tfkhdyt/openmusic-go/router/auth"
+	"github.com/tfkhdyt/openmusic-go/router/playlist"
 	"github.com/tfkhdyt/openmusic-go/router/song"
 	"github.com/tfkhdyt/openmusic-go/router/user"
 )
@@ -29,6 +30,10 @@ func main() {
 	authRG := r.Group("/authentications")
 	authRouter := auth.InitializeRouter()
 	authRouter.Route(authRG)
+
+	playlistRG := r.Group("/playlists")
+	playlistRouter := playlist.InitializeRouter()
+	playlistRouter.Route(playlistRG)
 
 	if err := r.Run(); err != nil {
 		panic(err.Error())
