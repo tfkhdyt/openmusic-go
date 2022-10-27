@@ -16,4 +16,5 @@ func NewRouter(controller *auth.Controller) *Router {
 func (r Router) Route(router *gin.RouterGroup) {
 	router.POST("/", r.controller.Login)
 	router.PUT("/", r.controller.RefreshToken)
+	router.DELETE("/", r.controller.DeleteToken)
 }
