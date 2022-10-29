@@ -17,4 +17,5 @@ func NewRouter(controller *playlist.Controller) *Router {
 func (r Router) Route(router *gin.RouterGroup) {
 	router.Use(jwt.VerifyJWT())
 	router.POST("/", r.controller.Create)
+	router.GET("/", r.controller.FindAll)
 }
