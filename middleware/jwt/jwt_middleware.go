@@ -14,14 +14,12 @@ func VerifyJWT() gin.HandlerFunc {
 
 		if header == "" {
 			response.SendFail(ctx, 401, "Token tidak boleh kosong")
-			return
 		}
 
 		tokenString := strings.Fields(header)
 
 		if tokenString[0] != "Bearer" {
 			response.SendFail(ctx, 401, "Jenis token harus berupa \"Bearer\"")
-			return
 		}
 
 		tokenManager := token.InitializeManager()
@@ -29,7 +27,6 @@ func VerifyJWT() gin.HandlerFunc {
 		userId, err := tokenManager.VerifyJWT(tokenString[1])
 		if err != nil {
 			response.SendFail(ctx, err.StatusCode, err.Error())
-			return
 		}
 
 		ctx.Set("userId", userId)
