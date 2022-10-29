@@ -8,7 +8,7 @@ import (
 )
 
 func SendError(ctx *gin.Context, err *exception.InternalServerError) {
-	ctx.JSON(err.StatusCode, gin.H{
+	ctx.AbortWithStatusJSON(err.StatusCode, gin.H{
 		"status":  "error",
 		"message": err.Error(),
 	})
