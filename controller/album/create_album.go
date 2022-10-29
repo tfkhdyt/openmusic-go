@@ -10,7 +10,7 @@ func (c Controller) Create(ctx *gin.Context) {
 	var album albumEntity.Album
 
 	if err := ctx.ShouldBindJSON(&album); err != nil {
-		response.SendFail(ctx, 400, err.Error())
+		response.SendFailWithErrors(ctx, 400, err.Error())
 		return
 	}
 

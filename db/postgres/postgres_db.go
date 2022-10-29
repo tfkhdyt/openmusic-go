@@ -6,6 +6,7 @@ import (
 	postgresConfig "github.com/tfkhdyt/openmusic-go/config/postgres"
 	"github.com/tfkhdyt/openmusic-go/entity/album"
 	"github.com/tfkhdyt/openmusic-go/entity/auth"
+	"github.com/tfkhdyt/openmusic-go/entity/playlist"
 	"github.com/tfkhdyt/openmusic-go/entity/song"
 	"github.com/tfkhdyt/openmusic-go/entity/user"
 	postgresDriver "gorm.io/driver/postgres"
@@ -32,7 +33,7 @@ func (d *DB) Connect() {
 		panic(err.Error())
 	}
 
-	db.AutoMigrate(&album.Album{}, &song.Song{}, &user.User{}, &auth.Auth{})
+	db.AutoMigrate(&album.Album{}, &song.Song{}, &user.User{}, &auth.Auth{}, &playlist.Playlist{})
 	PostgresDB = db
 
 	fmt.Println("Connected to DB...")

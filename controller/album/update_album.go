@@ -18,7 +18,7 @@ func (c Controller) Update(ctx *gin.Context) {
 	var newAlbum albumEntity.Album
 
 	if err := ctx.ShouldBindJSON(&newAlbum); err != nil {
-		response.SendFail(ctx, 400, err.Error())
+		response.SendFailWithErrors(ctx, 400, err.Error())
 		return
 	}
 

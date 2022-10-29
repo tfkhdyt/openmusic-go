@@ -10,7 +10,7 @@ func (c Controller) Create(ctx *gin.Context) {
 	var song song.Song
 
 	if err := ctx.ShouldBindJSON(&song); err != nil {
-		response.SendFail(ctx, 400, err.Error())
+		response.SendFailWithErrors(ctx, 400, err.Error())
 		return
 	}
 

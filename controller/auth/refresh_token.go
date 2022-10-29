@@ -13,7 +13,7 @@ func (c Controller) RefreshToken(ctx *gin.Context) {
 
 	// validate request body
 	if err := ctx.ShouldBindJSON(&auth); err != nil {
-		response.SendFail(ctx, 400, err.Error())
+		response.SendFailWithErrors(ctx, 400, err.Error())
 		return
 	}
 
