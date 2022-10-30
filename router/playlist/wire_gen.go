@@ -8,7 +8,10 @@ package playlist
 
 import (
 	playlist2 "github.com/tfkhdyt/openmusic-go/controller/playlist"
+	playlistsong2 "github.com/tfkhdyt/openmusic-go/controller/playlistsong"
 	"github.com/tfkhdyt/openmusic-go/service/playlist"
+	"github.com/tfkhdyt/openmusic-go/service/playlistsong"
+	"github.com/tfkhdyt/openmusic-go/service/song"
 )
 
 // Injectors from wire.go:
@@ -16,6 +19,9 @@ import (
 func InitializeRouter() *Router {
 	service := playlist.InitializeService()
 	controller := playlist2.NewController(service)
-	router := NewRouter(controller)
+	playlistsongService := playlistsong.InitializeService()
+	songService := song.InitializeService()
+	playlistsongController := playlistsong2.NewController(playlistsongService, service, songService)
+	router := NewRouter(controller, playlistsongController)
 	return router
 }
