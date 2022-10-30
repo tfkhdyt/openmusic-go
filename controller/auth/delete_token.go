@@ -28,5 +28,5 @@ func (c Controller) DeleteToken(ctx *gin.Context) {
 	}
 
 	// send success response
-	response.SendSuccessWithMessage(ctx, "Token berhasil dihapus")
+	response.SendSuccessWithMessage(ctx, 200, "Token berhasil dihapus")
 }
