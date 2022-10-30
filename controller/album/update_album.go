@@ -27,5 +27,5 @@ func (c Controller) Update(ctx *gin.Context) {
 		return
 	}
 
-	response.SendSuccessWithMessage(ctx, "Album berhasil diubah")
+	response.SendSuccessWithMessage(ctx, 200, "Album berhasil diubah")
 }

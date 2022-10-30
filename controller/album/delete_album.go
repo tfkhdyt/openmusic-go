@@ -19,5 +19,5 @@ func (c Controller) Delete(ctx *gin.Context) {
 		return
 	}
 
-	response.SendSuccessWithMessage(ctx, "Album berhasil dihapus")
+	response.SendSuccessWithMessage(ctx, 200, "Album berhasil dihapus")
 }

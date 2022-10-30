@@ -40,5 +40,5 @@ func (c Controller) Delete(ctx *gin.Context) {
 	}
 
 	// success response
-	response.SendSuccessWithMessage(ctx, "Playlist berhasil dihapus")
+	response.SendSuccessWithMessage(ctx, 201, "Playlist berhasil dihapus")
 }
