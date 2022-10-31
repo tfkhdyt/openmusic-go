@@ -1,0 +1,60 @@
+package playlistsong
+
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/tfkhdyt/openmusic-go/entity/playlistsong"
+	"github.com/tfkhdyt/openmusic-go/exception"
+	"github.com/tfkhdyt/openmusic-go/util/response"
+)
+
+func (c Controller) Delete(ctx *gin.Context) {
+	var playlistSong playlistsong.PlaylistSong
+
+	// validate request body
+	if err := ctx.ShouldBindJSON(&playlistSong); err != nil {
+		response.SendFailWithErrors(ctx, 400, err.Error())
+		return
+	}
+
+	// get user id from middleware
+	userId, ok := ctx.MustGet("userId").(string)
+	if !ok {
+		response.SendFail(ctx, 401, "User ID tidak valid")
+		return
+	}
+
+	// get playlist id from param
+	playlistId := ctx.Param("id")
+
+	// verify playlist owner
+	playlist, err := c.playlistsService.VerifyPlaylistOwner(playlistId, userId)
+	if err != nil {
+		notFoundErr, ok := err.(*exception.NotFoundError)
+		if ok {
+			response.SendFail(ctx, notFoundErr.StatusCode, notFoundErr.Error())
+			return
+		}
+
+		authenticationError, ok2 := err.(*exception.AuthenticationError)
+		if ok2 {
+			response.SendFail(ctx, authenticationError.StatusCode, authenticationError.Error())
+			return
+		}
+	}
+
+	// find song
+	song, err2 := c.songsService.FindOne(playlistSong.SongId)
+	if err2 != nil {
+		response.SendFail(ctx, err2.StatusCode, err2.Error())
+		return
+	}
+
+	// delete song from playlist
+	if err := c.playlistSongsService.Delete(&playlist, &song); err != nil {
+		response.SendError(ctx, err)
+		return
+	}
+
+	// success response
+	response.SendSuccessWithMessage(ctx, 200, "Lagu berhasil dihapus dari playlist")
+}

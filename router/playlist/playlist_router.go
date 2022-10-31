@@ -25,4 +25,5 @@ func (r Router) Route(router *gin.RouterGroup) {
 
 	router.POST("/:id/songs", r.playlistSongsController.Create)
 	router.GET("/:id/songs", r.playlistSongsController.FindAll)
+	router.DELETE("/:id/songs", r.playlistSongsController.Delete)
 }
