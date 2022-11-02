@@ -12,7 +12,7 @@ func (c Controller) FindAll(ctx *gin.Context) {
 		return
 	}
 
-	playlists, err := c.service.FindAll(userId)
+	playlists, err := c.playlistsService.FindAll(userId)
 	if err != nil {
 		response.SendFail(ctx, err.StatusCode, err.Error())
 		return

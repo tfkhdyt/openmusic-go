@@ -20,7 +20,7 @@ func (c Controller) Create(ctx *gin.Context) {
 	playlist.UserId = userId
 
 	// insert playlist to db
-	playlistId, err := c.service.Create(&playlist)
+	playlistId, err := c.playlistsService.Create(&playlist)
 	if err != nil {
 		response.SendError(ctx, err)
 		return

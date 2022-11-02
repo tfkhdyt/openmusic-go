@@ -9,7 +9,7 @@ func ErrorAssertion(ctx *gin.Context, err any) {
 	switch e := err.(type) {
 	case *exception.NotFoundError:
 		SendFail(ctx, e.StatusCode, e.Error())
-	case *exception.AuthenticationError:
+	case *exception.AuthorizationError:
 		SendFail(ctx, e.StatusCode, e.Error())
 	}
 }

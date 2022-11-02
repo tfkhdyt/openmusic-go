@@ -1,11 +1,11 @@
-package playlist
+package playlistsongactivity
 
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/tfkhdyt/openmusic-go/util/response"
 )
 
-func (c Controller) Delete(ctx *gin.Context) {
+func (c Controller) FindAll(ctx *gin.Context) {
 	// get user id from middleware
 	userId, ok := ctx.MustGet("userId").(string)
 	if !ok {
@@ -17,18 +17,22 @@ func (c Controller) Delete(ctx *gin.Context) {
 	playlistId := ctx.Param("id")
 
 	// verify playlist owner
-	playlist, err := c.playlistsService.VerifyPlaylistOwner(playlistId, userId)
+	_, err := c.playlistsService.VerifyPlaylistOwner(playlistId, userId)
 	if err != nil {
 		response.ErrorAssertion(ctx, err)
 		return
 	}
 
-	// delete playlist
-	if err := c.playlistsService.Delete(&playlist); err != nil {
-		response.SendError(ctx, err)
+	// find all activities
+	activities, err2 := c.service.FindAll(playlistId)
+	if err2 != nil {
+		response.SendFail(ctx, err2.StatusCode, err2.Error())
 		return
 	}
 
 	// success response
-	response.SendSuccessWithMessage(ctx, 200, "Playlist berhasil dihapus")
+	response.SendSuccessWithData(ctx, 200, &gin.H{
+		"playlistId": playlistId,
+		"activities": activities,
+	})
 }

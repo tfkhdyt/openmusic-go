@@ -1,11 +1,15 @@
 package playlist
 
-import "github.com/tfkhdyt/openmusic-go/service/playlist"
+import (
+	"github.com/tfkhdyt/openmusic-go/service/playlist"
+	"github.com/tfkhdyt/openmusic-go/service/playlistsongactivity"
+)
 
 type Controller struct {
-	service *playlist.Service
+	playlistsService  *playlist.Service
+	activitiesService *playlistsongactivity.Service
 }
 
-func NewController(service *playlist.Service) *Controller {
-	return &Controller{service}
+func NewController(playlistsService *playlist.Service, activitiesService *playlistsongactivity.Service) *Controller {
+	return &Controller{playlistsService, activitiesService}
 }
