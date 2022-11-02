@@ -12,7 +12,7 @@ func (s Service) VerifyPlaylistOwner(playlistId string, userId string) (playlist
 	}
 
 	if playlist.UserId != userId {
-		return playlist, exception.NewAuthenticationError("Anda tidak berhak mengakses playlist ini")
+		return playlist, exception.NewAuthorizationError("Anda tidak berhak mengakses playlist ini")
 	}
 
 	return playlist, nil

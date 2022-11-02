@@ -3,7 +3,6 @@ package playlistsong
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/tfkhdyt/openmusic-go/entity/playlistsong"
-	"github.com/tfkhdyt/openmusic-go/exception"
 	"github.com/tfkhdyt/openmusic-go/util/response"
 )
 
@@ -29,17 +28,8 @@ func (c Controller) Create(ctx *gin.Context) {
 	// verify playlist owner
 	playlist, err := c.playlistsService.VerifyPlaylistOwner(playlistId, userId)
 	if err != nil {
-		notFoundErr, ok := err.(*exception.NotFoundError)
-		if ok {
-			response.SendFail(ctx, notFoundErr.StatusCode, notFoundErr.Error())
-			return
-		}
-
-		authenticationError, ok2 := err.(*exception.AuthenticationError)
-		if ok2 {
-			response.SendFail(ctx, authenticationError.StatusCode, authenticationError.Error())
-			return
-		}
+		response.ErrorAssertion(ctx, err)
+		return
 	}
 
 	// find song
@@ -51,6 +41,12 @@ func (c Controller) Create(ctx *gin.Context) {
 
 	// add song to playlist
 	if err := c.playlistSongsService.Create(&playlist, &song); err != nil {
+		response.SendError(ctx, err)
+		return
+	}
+
+	// add activity log
+	if err := c.activitiesService.Create(playlistId, song.ID, userId, "add"); err != nil {
 		response.SendError(ctx, err)
 		return
 	}

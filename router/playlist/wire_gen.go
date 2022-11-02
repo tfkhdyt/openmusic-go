@@ -9,8 +9,10 @@ package playlist
 import (
 	playlist2 "github.com/tfkhdyt/openmusic-go/controller/playlist"
 	playlistsong2 "github.com/tfkhdyt/openmusic-go/controller/playlistsong"
+	playlistsongactivity2 "github.com/tfkhdyt/openmusic-go/controller/playlistsongactivity"
 	"github.com/tfkhdyt/openmusic-go/service/playlist"
 	"github.com/tfkhdyt/openmusic-go/service/playlistsong"
+	"github.com/tfkhdyt/openmusic-go/service/playlistsongactivity"
 	"github.com/tfkhdyt/openmusic-go/service/song"
 )
 
@@ -18,10 +20,12 @@ import (
 
 func InitializeRouter() *Router {
 	service := playlist.InitializeService()
-	controller := playlist2.NewController(service)
+	playlistsongactivityService := playlistsongactivity.InitializeService()
+	controller := playlist2.NewController(service, playlistsongactivityService)
 	playlistsongService := playlistsong.InitializeService()
 	songService := song.InitializeService()
-	playlistsongController := playlistsong2.NewController(playlistsongService, service, songService)
-	router := NewRouter(controller, playlistsongController)
+	playlistsongController := playlistsong2.NewController(playlistsongService, service, songService, playlistsongactivityService)
+	playlistsongactivityController := playlistsongactivity2.NewController(playlistsongactivityService, service)
+	router := NewRouter(controller, playlistsongController, playlistsongactivityController)
 	return router
 }

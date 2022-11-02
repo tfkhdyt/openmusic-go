@@ -8,12 +8,8 @@ import (
 )
 
 func (s Service) FindAll(title string, performer string) ([]song.Song, *exception.InternalServerError) {
-	if title != "" {
-		title = fmt.Sprintf("%%%v%%", title)
-	}
-	if performer != "" {
-		performer = fmt.Sprintf("%%%v%%", performer)
-	}
+	title = fmt.Sprintf("%%%v%%", title)
+	performer = fmt.Sprintf("%%%v%%", performer)
 
 	songs, err := s.repository.FindAll(title, performer)
 	if err != nil {

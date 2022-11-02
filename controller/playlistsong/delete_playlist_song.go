@@ -45,6 +45,12 @@ func (c Controller) Delete(ctx *gin.Context) {
 		return
 	}
 
+	// add activity log
+	if err := c.activitiesService.Create(playlistId, song.ID, userId, "delete"); err != nil {
+		response.SendError(ctx, err)
+		return
+	}
+
 	// success response
 	response.SendSuccessWithMessage(ctx, 200, "Lagu berhasil dihapus dari playlist")
 }
