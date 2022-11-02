@@ -12,3 +12,9 @@ type Playlist struct {
 	Songs      []song.Song                                 `json:"songs,omitempty" gorm:"many2many:playlist_songs;constraint:OnDelete:CASCADE"`
 	Activities []playlistsongactivity.PlaylistSongActivity `json:"activities,omitempty" gorm:"constraint:OnDelete:CASCADE"`
 }
+
+type FindAllPlaylistsResult struct {
+	Id       string `json:"id"`
+	Name     string `json:"name"`
+	Username string `json:"username"`
+}
