@@ -2,7 +2,6 @@ package playlist
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/tfkhdyt/openmusic-go/exception"
 	"github.com/tfkhdyt/openmusic-go/util/response"
 )
 
@@ -20,17 +19,8 @@ func (c Controller) Delete(ctx *gin.Context) {
 	// verify playlist owner
 	playlist, err := c.service.VerifyPlaylistOwner(playlistId, userId)
 	if err != nil {
-		notFoundErr, ok := err.(*exception.NotFoundError)
-		if ok {
-			response.SendFail(ctx, notFoundErr.StatusCode, notFoundErr.Error())
-			return
-		}
-
-		authenticationError, ok2 := err.(*exception.AuthenticationError)
-		if ok2 {
-			response.SendFail(ctx, authenticationError.StatusCode, authenticationError.Error())
-			return
-		}
+		response.ErrorAssertion(ctx, err)
+		return
 	}
 
 	// delete playlist
