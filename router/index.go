@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/tfkhdyt/openmusic-go/router/album"
 	"github.com/tfkhdyt/openmusic-go/router/auth"
+	"github.com/tfkhdyt/openmusic-go/router/collab"
 	"github.com/tfkhdyt/openmusic-go/router/playlist"
 	"github.com/tfkhdyt/openmusic-go/router/song"
 	"github.com/tfkhdyt/openmusic-go/router/user"
@@ -29,4 +30,8 @@ func Route(r *gin.Engine) {
 	playlistRG := r.Group("/playlists")
 	playlistRouter := playlist.InitializeRouter()
 	playlistRouter.Route(playlistRG)
+
+	collabRG := r.Group("/collaborations")
+	collabRouter := collab.InitializeRouter()
+	collabRouter.Route(collabRG)
 }
