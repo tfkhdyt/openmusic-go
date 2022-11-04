@@ -2,36 +2,72 @@ package router
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/tfkhdyt/openmusic-go/router/album"
-	"github.com/tfkhdyt/openmusic-go/router/auth"
-	"github.com/tfkhdyt/openmusic-go/router/collab"
-	"github.com/tfkhdyt/openmusic-go/router/playlist"
-	"github.com/tfkhdyt/openmusic-go/router/song"
-	"github.com/tfkhdyt/openmusic-go/router/user"
+	"github.com/tfkhdyt/openmusic-go/controller/album"
+	"github.com/tfkhdyt/openmusic-go/controller/auth"
+	"github.com/tfkhdyt/openmusic-go/controller/collab"
+	"github.com/tfkhdyt/openmusic-go/controller/playlist"
+	"github.com/tfkhdyt/openmusic-go/controller/playlistsong"
+	"github.com/tfkhdyt/openmusic-go/controller/playlistsongactivity"
+	"github.com/tfkhdyt/openmusic-go/controller/song"
+	"github.com/tfkhdyt/openmusic-go/controller/user"
+	"github.com/tfkhdyt/openmusic-go/middleware/jwt"
 )
 
-func Route(r *gin.Engine) {
-	albumRG := r.Group("/albums")
-	albumRouter := album.InitializeRouter()
-	albumRouter.Route(albumRG)
+type Router struct {
+	albumsController        *album.Controller
+	songsController         *song.Controller
+	usersController         *user.Controller
+	authsController         *auth.Controller
+	playlistsController     *playlist.Controller
+	playlistSongsController *playlistsong.Controller
+	activitiesController    *playlistsongactivity.Controller
+	collabsController       *collab.Controller
+}
 
-	songRG := r.Group("/songs")
-	songRouter := song.InitializeRouter()
-	songRouter.Route(songRG)
+func NewRouter(albumsController *album.Controller, songsController *song.Controller, usersController *user.Controller, authsController *auth.Controller, playlistsController *playlist.Controller, playlistSongsController *playlistsong.Controller, activitiesController *playlistsongactivity.Controller, collabsController *collab.Controller) *Router {
+	return &Router{albumsController, songsController, usersController, authsController, playlistsController, playlistSongsController, activitiesController, collabsController}
+}
 
-	userRG := r.Group("/users")
-	userRouter := user.InitializeRouter()
-	userRouter.Route(userRG)
+func (r Router) Route(router *gin.Engine) {
+	// albums
+	router.POST("/albums/", r.albumsController.Create)
+	router.GET("/albums/:id", r.albumsController.FindOne)
+	router.PUT("/albums/:id", r.albumsController.Update)
+	router.DELETE("/albums/:id", r.albumsController.Delete)
 
-	authRG := r.Group("/authentications")
-	authRouter := auth.InitializeRouter()
-	authRouter.Route(authRG)
+	// songs
+	router.POST("/songs/", r.songsController.Create)
+	router.GET("/songs/", r.songsController.FindAll)
+	router.GET("/songs/:id", r.songsController.FindOne)
+	router.PUT("/songs/:id", r.songsController.Update)
+	router.DELETE("/songs/:id", r.songsController.Delete)
 
-	playlistRG := r.Group("/playlists")
-	playlistRouter := playlist.InitializeRouter()
-	playlistRouter.Route(playlistRG)
+	// users
+	router.POST("/users", r.usersController.Create)
 
-	collabRG := r.Group("/collaborations")
-	collabRouter := collab.InitializeRouter()
-	collabRouter.Route(collabRG)
+	// auths
+	router.POST("/authentications", r.authsController.Login)
+	router.PUT("/authentications", r.authsController.RefreshToken)
+	router.DELETE("/authentications", r.authsController.DeleteToken)
+
+	// playlists
+	router.POST("/playlists/", jwt.VerifyJWT(), r.playlistsController.Create)
+	router.GET("/playlists/", jwt.VerifyJWT(), r.playlistsController.FindAll)
+	router.DELETE("/playlists/:id", jwt.VerifyJWT(), r.playlistsController.Delete)
+
+	// playlist's songs
+	router.POST("/playlists/:id/songs", jwt.VerifyJWT(), r.playlistSongsController.Create)
+	router.GET("/playlists/:id/songs", jwt.VerifyJWT(), r.playlistSongsController.FindAll)
+	router.DELETE("/playlists/:id/songs", jwt.VerifyJWT(), r.playlistSongsController.Delete)
+
+	// playlist's activities
+	router.GET("/playlists/:id/activities", jwt.VerifyJWT(), r.activitiesController.FindAll)
+
+	// collabs
+	router.POST("/collaborations", jwt.VerifyJWT(), r.collabsController.Create)
+	/*
+		 	collabRG := r.Group("/collaborations")
+			collabRouter := collab.InitializeRouter()
+			collabRouter.Route(collabRG)
+	*/
 }

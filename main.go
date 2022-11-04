@@ -9,8 +9,9 @@ import (
 func main() {
 	db := postgres.InitializeDB()
 	db.Connect()
-	r := gin.Default()
 
+	r := gin.Default()
+	router := router.InitializeRouter()
 	router.Route(r)
 
 	if err := r.Run(); err != nil {
