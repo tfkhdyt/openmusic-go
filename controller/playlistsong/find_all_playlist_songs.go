@@ -17,7 +17,7 @@ func (c Controller) FindAll(ctx *gin.Context) {
 	playlistId := ctx.Param("id")
 
 	// verify playlist owner
-	_, err := c.playlistsService.VerifyPlaylistOwner(playlistId, userId)
+	_, err := c.playlistsService.VerifyPlaylistAccess(playlistId, userId)
 	if err != nil {
 		response.ErrorAssertion(ctx, err)
 		return
