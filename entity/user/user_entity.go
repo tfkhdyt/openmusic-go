@@ -7,5 +7,5 @@ type User struct {
 	Username  string              `json:"username" binding:"required" gorm:"uniqueIndex"`
 	Password  string              `json:"password" binding:"required"`
 	Fullname  string              `json:"fullname" binding:"required"`
-	Playlists []playlist.Playlist `json:"playlists" gorm:"many2many:user_playlists"`
+	Playlists []playlist.Playlist `json:"playlists" gorm:"many2many:collaborations"`
 }

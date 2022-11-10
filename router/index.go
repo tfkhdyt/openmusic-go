@@ -65,9 +65,5 @@ func (r Router) Route(router *gin.Engine) {
 
 	// collabs
 	router.POST("/collaborations", jwt.VerifyJWT(), r.collabsController.Create)
-	/*
-		 	collabRG := r.Group("/collaborations")
-			collabRouter := collab.InitializeRouter()
-			collabRouter.Route(collabRG)
-	*/
+	router.DELETE("/collaborations", jwt.VerifyJWT(), r.collabsController.Delete)
 }

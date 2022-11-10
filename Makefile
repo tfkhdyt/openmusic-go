@@ -3,7 +3,7 @@ OS = linux
 default: dev
 
 dev: start-db
-	reflex -r "\.go$$" -s -- go run main.go
+	find . -name '*.go' | entr -r go run main.go
 
 start-server: build start-db
 	GIN_MODE=release bin/openmusic-go-${OS}

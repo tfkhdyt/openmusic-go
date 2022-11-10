@@ -14,7 +14,7 @@ func (r Repository) FindAll(userId string) ([]playlist.FindAllPlaylistsResult, e
 	*/
 	result := make([]playlist.FindAllPlaylistsResult, 0)
 
-	err := r.db.Table("playlists p").Select("p.id", "p.name", "u.username").Joins("JOIN users u ON u.id = p.user_id").Where("p.user_id = ?", userId).Scan(&result).Error
+	err := r.db.Table("playlists p").Select("p.id", "p.name", "u.username").Joins("JOIN users u ON u.id = p.user_id").Joins("JOIN collaborations c ON c.playlist_id = p.id").Where("p.user_id = ? OR c.user_id = ?", userId, userId).Scan(&result).Error
 
 	return result, err
 }

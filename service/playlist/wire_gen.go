@@ -8,12 +8,14 @@ package playlist
 
 import (
 	"github.com/tfkhdyt/openmusic-go/repository/postgres/playlist"
+	"github.com/tfkhdyt/openmusic-go/service/collab"
 )
 
 // Injectors from wire.go:
 
 func InitializeService() *Service {
 	repository := playlist.NewRepository()
-	service := NewService(repository)
-	return service
+	service := collab.InitializeService()
+	playlistService := NewService(repository, service)
+	return playlistService
 }

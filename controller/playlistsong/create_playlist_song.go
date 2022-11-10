@@ -26,7 +26,7 @@ func (c Controller) Create(ctx *gin.Context) {
 	playlistId := ctx.Param("id")
 
 	// verify playlist owner
-	playlist, err := c.playlistsService.VerifyPlaylistOwner(playlistId, userId)
+	playlist, err := c.playlistsService.VerifyPlaylistAccess(playlistId, userId)
 	if err != nil {
 		response.ErrorAssertion(ctx, err)
 		return
