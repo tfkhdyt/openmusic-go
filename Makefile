@@ -5,7 +5,7 @@ default: dev
 dev: start-db
 	find . -name '*.go' | entr -r go run main.go
 
-start-server: build start-db
+start-server:
 	GIN_MODE=release bin/openmusic-go-${OS}
 
 clean: 
