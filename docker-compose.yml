@@ -1,0 +1,26 @@
+services:
+  db:
+    image: postgres:alpine3.16
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      timeout: 30s 
+      interval: 5s
+      retries: 10
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: openmusic-go
+  app:
+    build: .
+    ports: 
+      - 8080:8080 
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: openmusic-go
+      DB_USER: postgres
+      DB_PASS: postgres
+      JWT_SECRET_KEY: XSiWAA2hML6Q8GZ6tgypznMjHWP26GvLYnqM2oyKcp6vwRrtzgRnZRLzBkmxcWs79gGmGRxZctRorqL4o9BUigTMFQRnfobVBbS5FDm53ehnB9ysWaTCGd5VU8kBuUjD
+    depends_on: 
+      db:
+        condition: service_healthy
