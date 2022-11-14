@@ -30,14 +30,14 @@ func NewRouter(albumsController *album.Controller, songsController *song.Control
 
 func (r Router) Route(router *gin.Engine) {
 	// albums
-	router.POST("/albums/", r.albumsController.Create)
+	router.POST("/albums", r.albumsController.Create)
 	router.GET("/albums/:id", r.albumsController.FindOne)
 	router.PUT("/albums/:id", r.albumsController.Update)
 	router.DELETE("/albums/:id", r.albumsController.Delete)
 
 	// songs
-	router.POST("/songs/", r.songsController.Create)
-	router.GET("/songs/", r.songsController.FindAll)
+	router.POST("/songs", r.songsController.Create)
+	router.GET("/songs", r.songsController.FindAll)
 	router.GET("/songs/:id", r.songsController.FindOne)
 	router.PUT("/songs/:id", r.songsController.Update)
 	router.DELETE("/songs/:id", r.songsController.Delete)
@@ -51,8 +51,8 @@ func (r Router) Route(router *gin.Engine) {
 	router.DELETE("/authentications", r.authsController.DeleteToken)
 
 	// playlists
-	router.POST("/playlists/", jwt.VerifyJWT(), r.playlistsController.Create)
-	router.GET("/playlists/", jwt.VerifyJWT(), r.playlistsController.FindAll)
+	router.POST("/playlists", jwt.VerifyJWT(), r.playlistsController.Create)
+	router.GET("/playlists", jwt.VerifyJWT(), r.playlistsController.FindAll)
 	router.DELETE("/playlists/:id", jwt.VerifyJWT(), r.playlistsController.Delete)
 
 	// playlist's songs

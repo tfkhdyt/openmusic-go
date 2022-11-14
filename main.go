@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/tfkhdyt/openmusic-go/db/postgres"
 	"github.com/tfkhdyt/openmusic-go/router"
 )
 
@@ -14,9 +13,6 @@ func main() {
 	if port == "" {
 		port = "8080"
 	}
-
-	db := postgres.InitializeDB()
-	db.Connect()
 
 	r := gin.Default()
 	r.SetTrustedProxies(nil)

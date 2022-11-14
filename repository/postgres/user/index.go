@@ -10,6 +10,6 @@ type Repository struct {
 }
 
 func NewRepository() *Repository {
-	db := postgres.PostgresDB
+	db := postgres.GetInstance()
 	return &Repository{db}
 }
